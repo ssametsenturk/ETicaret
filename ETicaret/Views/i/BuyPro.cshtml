@@ -1,0 +1,35 @@
+﻿@model  IEnumerable<ETicaret.DB.Orders>
+ 
+@{
+    ViewBag.Title = "BuyPro";
+    
+}
+<h2>Sipariş Sayfası</h2>
+
+<h3>@ViewBag.Error</h3>
+
+<table>
+
+    <tr>
+        <td>siparis Açıklama</td>
+        <td>siparis Statüsü</td>
+        <td>Sipariş Detay</td>
+        <td>Sipariş Tarihi</td>
+        <td>Sipariş Ödeme Bildirimi Yap</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        @{
+            string id = item.Id.ToString();
+        }
+        <td>@item.Description</td>-
+        <td>@item.Status</td>-
+        <td><a href="~/i/orderdetails/@id"> <span class="glyphicon glyphicon-align-justify"></span></a></td>
+        <td>@item.AddedDate</td>
+        <a href="~/i/PaymentNotificiation/@item.Id"><button class="btn"></button></a>
+
+    </tr>
+    }
+
+</table>

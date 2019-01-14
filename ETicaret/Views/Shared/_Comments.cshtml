@@ -1,0 +1,48 @@
+﻿@model List<ETicaret.DB.Comments>
+
+    <div class="row">
+        <div class="col-md-8 col-md-push-4">
+
+            <div class="form-group">
+                <h3>Comments</h3>
+                <hr />
+            </div>
+
+            <div class="form-group">
+                @foreach (var item in Model.OrderBy(x => x.AddedDate).ToList())
+                {
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-left">
+                                @*TODO KİSİ PROFİLİ GİDİLECEK*@
+                                <a href="#">
+                                    <img class="media-object img-circle img-thumbnail" src="http://placehold.it/64x64">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">@($"{item.Members.Name} {item.Members.Surname}")</h4>
+                                @item.Text
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+            @*@if (Session["LogonUser"] != null)
+            {
+                @using (Html.BeginForm("Product","i",FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <textarea cols="30" rows="3" id="comment" name="comment" class="form-control" placeholder="Yorumunuzu giriniz" maxlength="255"></textarea>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-send"></span> Send
+                        </button>
+                    </div>
+                }
+
+            }*@
+
+        </div>
+    </div>

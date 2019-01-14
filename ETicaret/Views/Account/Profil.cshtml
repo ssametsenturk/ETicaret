@@ -1,0 +1,126 @@
+﻿@model ETicaret.Models.Account.ProfilModels
+
+@{
+    ViewBag.Title = string.Format("{0} {1}", Model.Members.Name, Model.Members.Surname);
+    Model.Members.ProfileImageName = string.IsNullOrEmpty(Model.Members.ProfileImageName) ? "http://placehold.it/150x150" : Model.Members.ProfileImageName;
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Profil Sayfası</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <center><img src="@Model.Members.ProfileImageName" class="img-circle img-responsive img-thumbnail" /></center>
+    </div>
+    <div class="col-md-8 well">
+
+        <div class="form-group">
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Adı : </label>
+            <label class="col-md-10">@Model.Members.Name</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Soyadı : </label>
+            <label class="col-md-10">@Model.Members.Surname</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">E-Mail : </label>
+            <label class="col-md-10">@Model.Members.Email</label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Hakkında : </label>
+            <label class="col-md-10">
+                @Model.Members.Bio
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 text-danger">Kayıt Tarihi : </label>
+            <label class="col-md-10">
+                @Model.Members.AddedDate.ToShortDateString()
+            </label>
+        </div>
+    </div>
+</div>
+
+@if (Session["LogonUser"] != null && ((ETicaret.DB.Members)(Session["LogonUser"])).Id == Model.Members.Id)
+{
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-right">
+            <a href="/Account/ProfilEdit" class="btn btn-warning">
+                <span class="glyphicon glyphicon-edit"></span> Düzenle
+            </a>
+
+            <a href="#" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash"></span> Sil
+            </a>
+        </div>
+        <div class="col-md-12">
+            &nbsp;
+        </div>
+    </div>
+
+    if (Model.Addresses != null)
+    {
+
+        <table class="table table-condensed table-striped table-hover text-center">
+
+            <thead>
+                <tr>
+                    <!--th*4>{kolon adı}-->
+                    <th class="text-center">Adres Adı</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.Addresses)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <a href="~/Account/AddressesEdit/@item.Id" class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-edit"></span> Güncelle
+                            </a>
+                            <a href="~/Account/AddressesDelete/@item.Id.ToString()" class="btn btn-success btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span> Sil
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+
+
+    using (Html.BeginForm("Addresses", "Account"))
+    {
+        <div class="form-group">
+            @Html.TextBox("Name", "", new {@class="form-control"})
+            @*<input type="text" name="name" value="" />*@
+        </div>
+        <div class="form-group">
+            @Html.TextArea("AdresDescription", "", new { @class = "form-control" })
+            @*<textarea type="text" class="form-control" name="name" value=""></textarea>*@
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-info" name="name" value=""> Kaydet </button>
+        </div>
+    }
+
+}
+
+

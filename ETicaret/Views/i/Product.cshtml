@@ -1,0 +1,77 @@
+﻿@model ETicaret.Models.i.ProductModels
+
+@{
+    ViewBag.Title = "Product";
+}
+
+@Html.Partial("_Product", Model.Product)
+@Html.Partial("_AddCart", Model.Product)
+
+@*YORUM KISMI*@
+<div class="row">
+    <div class="col-md-8 col-md-push-4">
+
+        <div class="form-group">
+            <h3>Comments</h3>
+            <hr />
+        </div>
+
+        <div class="form-group">
+            @foreach (var item in Model.Comments.OrderBy(x => x.AddedDate).ToList())
+            {
+                <ul class="media-list">
+                    <li class="media">
+                        <div class="media-left">
+                            @*TODO KİSİ PROFİLİ GİDİLECEK*@
+                            <a href="~/Account/Profil/@item.Members.Id">
+                                <img class="media-object img-circle img-thumbnail" width=64; src="@item.Members.ProfileImageName" >
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">@($"{item.Members.Name} {item.Members.Surname}")</h4>
+                            @item.Text
+                        </div>
+                    </li>
+                </ul>
+            }
+
+        </div>
+        @if (Session["LogonUser"] != null)
+        {
+
+            {
+                <div class="form-group">
+                    <textarea cols="30" typeof="text" rows="3" id="yorum" name="comment" class="form-control" placeholder="Yorumunuzu giriniz" maxlength="255"></textarea>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" id="gonder" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-send"></span> Send
+                    </button>
+                </div>
+            }
+
+        }
+
+    </div>
+</div>
+
+
+@*YORUM YAP*@
+<script type="text/javascript">
+        $(document).ready(function(){
+            $("#gonder").click(function () {
+                var yorumunuz = $("#yorum").val();
+                $.ajax({
+                    url: '/i/YorumYap/',
+                    data: { yorum: yorumunuz, productid:@Model.Product.Id },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert("Yorum Gönderildi: " + yorumunuz);
+                        window.location.reload(false);
+                    }
+                    });
+              });
+        })
+</script>
+

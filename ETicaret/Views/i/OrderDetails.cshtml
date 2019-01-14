@@ -1,0 +1,67 @@
+﻿@model List<ETicaret.DB.OrderDetails>
+
+@{
+    ViewBag.Title = "OrderDetails";
+    Decimal totalprice = 0;
+}
+
+<h2>OrderDetails</h2>
+
+<div>
+    <h4>OrderDetails</h4>
+    <hr />
+    @foreach (var item in Model)
+    {
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => item.Products.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Products.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.Discount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Discount)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => item.AddedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.AddedDate)
+        </dd>
+        @{
+            totalprice = totalprice + item.Price;
+        }
+    </dl>
+            }
+
+        Toplam Fiyat: <input type="text" value="@totalprice" class="field left" readonly>
+
+</div>
+
